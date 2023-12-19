@@ -53,19 +53,25 @@ class Hand():
         # 3) two pair
         # 2) one pair
         # 1) high card
+        jokers = 0       
         counter = {}
         for card in self.cards:
-            counter[card] = counter.get(card, 0) + 1
-        
+            if card == 'J':
+                jokers += 1
+            else:
+                counter[card] = counter.get(card, 0) + 1
+
+        if len(counter.keys()) == 0:
+            return 7
         if len(counter.keys()) == 1:
             return 7
         if len(counter.keys()) == 2:
-            if max(counter.values()) == 4:
+            if max(counter.values()) + jokers == 4:
                 return 6
             else:
                 return 5
         if len(counter.keys()) == 3:
-            if max(counter.values()) == 3:
+            if max(counter.values()) +  jokers == 3:
                 return 4
             else:
                 return 3
@@ -102,7 +108,7 @@ card_values = {'2': 2,
                '8': 8,
                '9': 9,
                'T': 10,
-               'J': 11,
+               'J': 1,  #<- jokers
                'Q': 12,
                'K': 13,
                'A': 14,
