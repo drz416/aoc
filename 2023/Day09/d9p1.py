@@ -30,15 +30,15 @@ def main(argv: list[str]):
         sequence: list[int] = []
         for number in line.split():
             sequence.append(int(number))
-        first_digit = get_previous(sequence)
-        s += first_digit
-        print(s, first_digit, sequence)
+        next_digit = get_next(sequence)
+        s += next_digit
+        print(sequence, next_digit, s)
         
 
 
 
-def get_previous(sequence: list[int]) -> int:
-    # Pass in a sequence and return its first number in sequence
+def get_next(sequence: list[int]) -> int:
+    # Pass in a sequence and return its next number in sequence
     for number in sequence:
         if number != 0:
             break
@@ -48,8 +48,8 @@ def get_previous(sequence: list[int]) -> int:
     sub_sequence: list[int] = []
     for i, number in enumerate(sequence[0:-1]):
         sub_sequence.append(sequence[i+1] - number)
-    return sequence[0] - get_previous(sub_sequence)
+    return sequence[-1] + get_next(sub_sequence)
 
 main(sys.argv)
 
-#answer: 
+#answer: 1974232246
