@@ -54,13 +54,13 @@ def main(argv: list[str]):
                                 }
             unvisited.add((i, j))
 
-    # Initialize Dijsktra
+    # Initialize Dijkstra
     current_node = (0, 0)
     node_map[(0, 0)]["distance_from_start"] = 0
     neighbour: tuple[int]
     i = 0
 
-    # Start Dijsktra
+    # Start Dijkstra
     while unvisited:
         # print(i)
         # i += 1
