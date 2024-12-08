@@ -1,0 +1,75 @@
+Day 01
+    p1: Using heaps (heapq) to compare lowest numbers in lists
+    p1: Using Counter from collections, easily counts one of the lists for comparison
+Day 02
+    p1: Single loop with early breaks to avoid parsing every element in a report
+    p2: Double nested loop with early breaks to avoid parsing every element, and also every variant combination
+Day 03
+    p1: Use regex's to find all the correctly spelled syntax, then perform calculations on results
+    p2: First parse the entire string and pull out only part of string that is after do(), then use above method's regex to get mul commands only
+Day 04
+    p1:
+    p2:
+Day 05
+    p1:
+    p2:
+Day 06
+    p1:
+    p2:
+Day 07
+    p1:
+    p2:
+Day 08
+    p1:
+    p2:
+Day 09
+    p1:
+    p2:
+Day 10
+    p1:
+    p2:
+Day 11
+    p1:
+    p2:
+Day 12
+    p1:
+    p2:
+Day 13
+    p1:
+    p2:
+Day 14
+    p1:
+    p2:
+Day 15
+    p1:
+    p2:
+Day 16
+    p1:
+    p2:
+Day 17
+    p1:
+    p2:
+Day 18
+    p1:
+    p2:
+Day 19
+    p1:
+    p2:
+Day 20
+    p1:
+    p2:
+Day 21
+    p1:
+    p2:
+Day 22
+    p1:
+    p2:
+Day 23
+    p1:
+    p2:
+Day 24
+    p1:
+    p2:
+Day 25
+    p1:
+    p2:
