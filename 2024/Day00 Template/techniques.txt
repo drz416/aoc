@@ -8,8 +8,8 @@ Day 03
     p1: Use regex's to find all the correctly spelled syntax, then perform calculations on results
     p2: First parse the entire string and pull out only part of string that is after do(), then use above method's regex to get mul commands only
 Day 04
-    p1:
-    p2:
+    p1: Scan the grid with nested loops x, y, looking for Xs and use a dictionary to index into directions
+    p2: Scan the grid with nested loops x, y, looking for As and use a dictionary to index into directions
 Day 05
     p1:
     p2:
