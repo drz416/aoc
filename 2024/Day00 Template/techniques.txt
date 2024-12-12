@@ -11,11 +11,11 @@ Day 04
     p1: Scan the grid with nested loops x, y, looking for Xs and use a dictionary to index into directions
     p2: Scan the grid with nested loops x, y, looking for As and use a dictionary to index into directions
 Day 05
-    p1:
-    p2:
+    p1: Use itertools.combinations to cycle through all 2p combinations, and check if they break rules
+    p2: For failed updates, use a modified bubble sorting algorithm to order the updates correctly
 Day 06
-    p1:
-    p2:
+    p1: Traversed a grid using current position as reference (list), and historic positions as dictinary tuples
+    p2: Traversed a grid using current position as reference (list), and historic positions as dictinary tuples
 Day 07
     p1:
     p2:
