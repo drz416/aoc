@@ -20,8 +20,8 @@ Day 07
     p1: Use itertools.product to generate all operator combinations, call operator functions from a dict
     p2: As above but add another operator into the dictionary
 Day 08
-    p1:
-    p2:
+    p1: Calculate slope betweeb two antennas, project slope ahead and before to find nodes
+    p2: As above, but project continuously along slopes until nodes leave the grid area
 Day 09
     p1:
     p2:
