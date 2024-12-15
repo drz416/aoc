@@ -23,8 +23,8 @@ Day 08
     p1: Calculate slope betweeb two antennas, project slope ahead and before to find nodes
     p2: As above, but project continuously along slopes until nodes leave the grid area
 Day 09
-    p1:
-    p2:
+    p1: Mutable array manipulation modeled with a list, using a front of list and back of list seek index
+    p2: As above, but also keeping track of block lengths for replacement in blocks
 Day 10
     p1:
     p2:
