@@ -26,8 +26,8 @@ Day 09
     p1: Mutable array manipulation modeled with a list, using a front of list and back of list seek index
     p2: As above, but also keeping track of block lengths for replacement in blocks
 Day 10
-    p1:
-    p2:
+    p1: Used recursion to traverse grid, looking for trail-ends, stored trail-ends in set for unique ends
+    p2: Same recurision as above, but stored trail-ends in a list were multiple paths are possible
 Day 11
     p1:
     p2:
