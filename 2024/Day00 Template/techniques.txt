@@ -29,8 +29,8 @@ Day 10
     p1: Used recursion to traverse grid, looking for trail-ends, stored trail-ends in set for unique ends
     p2: Same recurision as above, but stored trail-ends in a list were multiple paths are possible
 Day 11
-    p1:
-    p2:
+    p1: Part 1 solved using a linked list, each stone is an object, allowing inseration within link
+    p2: This part has too many cycles generating over 200T objects, reduced stone duplication to cycles, made into algebra problem
 Day 12
     p1:
     p2:
