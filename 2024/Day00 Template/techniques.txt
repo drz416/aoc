@@ -32,8 +32,8 @@ Day 11
     p1: Part 1 solved using a linked list, each stone is an object, allowing inseration within link
     p2: This part has too many cycles generating over 200T objects, reduced stone duplication to cycles, made into algebra problem
 Day 12
-    p1:
-    p2:
+    p1: Setup Plots as object and Regions as objects housing Plots, using OOP style methods to perform checks and merges
+    p2: Same as above, but needed to modify the method to use a rule of edge counting to count long edges
 Day 13
     p1:
     p2:
