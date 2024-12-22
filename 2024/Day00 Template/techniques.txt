@@ -38,8 +38,8 @@ Day 13
     p1: Brute force was a trap, the solution was just solving a 2x2 matrix of the from Ax=b
     p2: Same as above, but b was increased by many orders, didn't impact the calculations
 Day 14
-    p1:
-    p2:
+    p1: Robots moved in straight line, used time * slop to determine final position
+    p2: Easter egg: required visual inspection of robot movements until christmas tree was found
 Day 15
     p1:
     p2:
