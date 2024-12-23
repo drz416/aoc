@@ -41,8 +41,8 @@ Day 14
     p1: Robots moved in straight line, used time * slop to determine final position
     p2: Easter egg: required visual inspection of robot movements until christmas tree was found
 Day 15
-    p1:
-    p2:
+    p1: Robots and boxed mapped using a list grid, movements done through recursive function
+    p2: Same as above, except one of the cases in the recursion function calls 2 recursives, to check both sides of a box
 Day 16
     p1:
     p2:
