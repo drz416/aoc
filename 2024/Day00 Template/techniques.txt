@@ -50,8 +50,8 @@ Day 17
     p1: First part is straight forward, programming a computer reading a list of opcodes
     p2: Second part was non-trivial, I found someone else's algorithm that reverse engineered bitwise movements
 Day 18
-    p1:
-    p2:
+    p1: Created dijsktra's algorithm from scratch to calculate shortest path, anticipated it will be needed as a function for p2
+    p2: Same as above except placed in a while loop, and incremeted the number of bytes that dropped at start
 Day 19
     p1:
     p2:
