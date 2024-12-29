@@ -56,8 +56,8 @@ Day 19
     p1: Used a recursive function to calculate combinations, but do to high # of combinations, used memoization
     p2: Same as above, but needed to change the recursive function to return count of successes
 Day 20
-    p1:
-    p2:
+    p1: Since the maze did not have any forks, it was simple to implement by setting distance markers and breaking a wall
+    p2: Part 2 used an internet solution that only looked at cheats that could save >100 seconds, did not search for paths through walls
 Day 21
     p1:
     p2:
