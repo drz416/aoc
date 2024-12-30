@@ -62,8 +62,8 @@ Day 21
     p1: Created a key mapping using dictionary lookup for fast access, then created combinations using itertools.product
     p2: Rewrote the problem as a recursive function with memoization, the recursive function tracks which number robot is acting
 Day 22
-    p1: 
-    p2:
+    p1: Integer manipulation thousands of times was optimized by assigning fewest variables as possible
+    p2: Brute force method to record all prices changes in a long pre-allocated list for quick access and write
 Day 23
     p1:
     p2:
