@@ -59,10 +59,10 @@ Day 20
     p1: Since the maze did not have any forks, it was simple to implement by setting distance markers and breaking a wall
     p2: Part 2 used an internet solution that only looked at cheats that could save >100 seconds, did not search for paths through walls
 Day 21
-    p1:
-    p2:
+    p1: Created a key mapping using dictionary lookup for fast access, then created combinations using itertools.product
+    p2: Rewrote the problem as a recursive function with memoization, the recursive function tracks which number robot is acting
 Day 22
-    p1:
+    p1: 
     p2:
 Day 23
     p1:
