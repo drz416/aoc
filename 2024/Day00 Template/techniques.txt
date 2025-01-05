@@ -68,8 +68,8 @@ Day 23
     p1: Kept graph connections in a set, then used "set &" to determine shared links between computers
     p2: Used a recursive function to check successive shared graph connections, and build the longest group (later learned my close resembles Bron-Kerbosch algorithm)
 Day 24
-    p1:
-    p2:
+    p1: Used a dictionary to store state of wires, and a deque to cycle through gates and removed them from deque when processed
+    p2: Approached the problem several ways, but the solution turned out to be more intensive, used online solution
 Day 25
     p1:
     p2:
