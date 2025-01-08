@@ -45,14 +45,10 @@ def main(argv: list[str]):
     #----------------------------------------------------------------
 
     # Setup containers
-    from collections import OrderedDict
     grid: list[list[str]] = []
-    directions = {
-        (-1,0): ((0,1), (0,-1), (-1,0)),
-        (0,1): ((-1,0), (1,0), (0,1)),
-        (1,0): ((0,1), (0,-1), (1,0)),
-        (0,-1): ((-1,0), (1,0), (0,-1)),
-    }
+    start_facing = (0,1)
+    start_score = 0
+    directions = ((-1,0), (0,1), (1,0), (0,-1))
     
     # Find key locations
     for i, line in enumerate(lines):
@@ -62,102 +58,98 @@ def main(argv: list[str]):
         if "E" in line:
             end_position = (i, line.find("E"))
 
-    # Initialize starting object
-    start_facing = (0,1)
-    start_history = {(start_position, start_facing): 0}
-    start_obj = Pather(start_position, start_facing, OrderedDict(**start_history))
+    # Initialize starting variables
+    start_obj = Pather(start_position, start_facing, start_score, [start_position])
     q = deque([start_obj])
-    pathers = [start_obj]
+    
+    best_paths = {(tuple(start_position), start_facing): (start_score, {start_obj})}
+    Pather.best_paths = best_paths
     
     while q:
-        curr = q.pop()
-        x, y = curr.position
-        print(f"\033[0G{curr.position}", sep="", end="")
-
+        curr_pather = q.pop()
+        x, y = curr_pather.position
         if (x, y) == end_position:
             continue
-        possible_directions = []
-        for dx, dy in directions[curr.facing]:
-            if grid[x+dx][y+dy] != "#":
-                possible_directions.append((dx, dy))
-        
-        for i, (dx, dy) in enumerate(possible_directions):
-            if i == len(possible_directions) - 1:
-                # This is the final possible direction, don't create copies just move
-                if (dx, dy) != curr.facing:
-                    curr.turn_90((dx, dy))
-                if curr.move():
-                    q.append(curr)
+
+        move_forward_as_last_action = False
+        for dx, dy in directions:
+            if (curr_pather.facing[0], curr_pather.facing[1]) == (-dx, -dy):
+                pass
+            elif grid[x+dx][y+dy] == "#":
+                pass
+            elif (dx, dy) == curr_pather.facing:
+                move_forward_as_last_action = True
             else:
-                # These are all turns that require copies
-                new_path = Pather(curr.position, curr.facing, curr.history)
-                new_path.turn_90((dx, dy))
+                #90deg turn
+                new_score = curr_pather.score + 1000
+                new_visited = curr_pather.visited.copy()
+                new_pather = Pather((x,y), (dx,dy), new_score, new_visited)
+                new_pather.move()
+                if new_pather.is_best_path():
+                    new_pather.set_self_best()
+                    q.append(new_pather)
+                elif new_pather.is_tied_best():
+                    new_pather.add_to_best()
+                    q.append(new_pather)
 
-                # check if another pather has a better score
-                for pather in pathers:
-                    best = True
-                    if ((new_path.position, new_path.facing) in pather.history) and (pather.history[(new_path.position, new_path.facing)] < new_path.score):
-                        best = False
-                        break
-                if best == False:
-                    # The new copy is not the best path, delete the object
-                    del new_path
-                    continue
-                
-                # New path is best, move forward and ensure not backtracking
-                if new_path.move():
-                    pathers.append(new_path)
-                    q.append(new_path)
+        if move_forward_as_last_action:
+            curr_pather.move()
+            if curr_pather.is_best_path():
+                curr_pather.set_self_best()
+                q.append(curr_pather)
+            elif curr_pather.is_tied_best():
+                curr_pather.add_to_best()
+                q.append(curr_pather)
 
 
+    min_dist = min(value[0] for key, value in best_paths.items() if key[0] == end_position)
+    print(f"Best path score: {min_dist}")
     
-    least = 99999999999999999999
-    for pather in pathers:
-        if (end_position, (-1,0)) in pather.history:
-            least = min(least, pather.history[(end_position, (-1,0))])
-    print(f"Least: {least}")
+    for key, value in best_paths.items():
+        if (key[0] == end_position) and (value[0] == min_dist):
+            final_paths = list(value[1])
 
+    viewing_positions = set()
+    for path in final_paths:
+        print(f"Path: {path}, length {len(path.visited)}")
+        viewing_positions.update(set(path.visited))
 
-    total = 0
-    for pather in pathers:
-        if (end_position, (-1,0)) in pather.history:
-            if pather.history[(end_position, (-1,0))] == least:
-                total += 1
-                pprint(pather.history)
-
-    print(f"Total: {total}")
-
-
-
-
-    # ans: 
+    print(f"Best viewing positions: {len(viewing_positions)}")
+    # ans: 508
 
 class Pather():
+    best_paths: dict
 
-    def __init__(self, position: tuple[int], facing: tuple[int], history: dict) -> None:
+    def __init__(
+            self,
+            position: tuple[int],
+            facing: tuple[int],
+            score: int,
+            visited: list[tuple[int]]) -> None:
         self.position = position
         self.facing = facing
-        self.score = history[(position, facing)]
-        self.history = history.copy()
+        self.score = score
+        self.visited = visited
     
-    def turn_90(self, new_facing: tuple[int]) -> None:
-        self.facing = new_facing
-        self.score += 1000
-        self.history[(self.position, self.facing)] = self.score
-
-    def move(self) -> bool:
-        # Return False if stepped onto a position already traversed
+    def move(self) -> None:
         self.position = (self.position[0] + self.facing[0],
                          self.position[1] + self.facing[1])
-        if (self.position, self.facing) in self.history:
-            return False
+        self.visited.append(self.position)
         self.score += 1
-        self.history[(self.position, self.facing)] = self.score
-        return True
     
-
-
+    def is_best_path(self) -> bool:
+        if (self.position, self.facing) not in self.__class__.best_paths:
+            return True
+        return self.score < self.__class__.best_paths[(self.position, self.facing)][0]
     
+    def set_self_best(self) -> None:
+        self.__class__.best_paths[(self.position, self.facing)] = (self.score, {self})
+
+    def is_tied_best(self) -> bool:
+        return self.score == self.__class__.best_paths[(self.position, self.facing)][0]
+    
+    def add_to_best(self) -> None:
+        self.__class__.best_paths[(self.position, self.facing)][1].add(self)
 
         
 

@@ -45,7 +45,7 @@ Day 15
     p2: Same as above, except one of the cases in the recursion function calls 2 recursives, to check both sides of a box
 Day 16
     p1: Created path objects that duplicate when they run into intersections, moved with a deque
-    p2: TO COME BACK TO
+    p2: Updated part 1 code to keep track of history of each path
 Day 17
     p1: First part is straight forward, programming a computer reading a list of opcodes
     p2: Second part was non-trivial, I found someone else's algorithm that reverse engineered bitwise movements
@@ -71,5 +71,5 @@ Day 24
     p1: Used a dictionary to store state of wires, and a deque to cycle through gates and removed them from deque when processed
     p2: Approached the problem several ways, but the solution turned out to be more intensive, used online solution
 Day 25
-    p1:
-    p2:
+    p1: Straight forward, identifying each lock and key with tuples, then iterating over them with an itertool product
+    p2: No puzzle
