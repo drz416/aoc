@@ -26,12 +26,26 @@ from itertools import product, combinations
 # Solution Code
 #----------------------------------------------------------------
 
-def normalize(new_position: int) -> int:
+def normalize(start_position: int, end_position: int) -> bool(int):
     """This function takes a final position of the dial and normalizes it to
-    a position between 0 and 99"""
-    if 0 <= new_position <= 99:
-        return new_position
-    return new_position % 100
+    a position between 0 and 99, it also counts passes through zero"""
+    if end_position == 0 or end_position == 100:
+        return (1, 0)
+    if 0 < end_position < 100:
+        return (0, end_position)
+    
+    if end_position < 0:
+        passes = abs(end_position // 100)
+        if start_position == 0:
+            passes -= 1
+        end_position = end_position % 100
+        if end_position == 0:
+            passes += 1
+    else: # end_position > 100
+        passes = end_position // 100
+        end_position = end_position % 100
+
+    return (passes, end_position)
     
 
 def main(lines: list[str]):
@@ -41,11 +55,10 @@ def main(lines: list[str]):
 
     for line in lines:
         direction = 1 if line[0] == "R" else (-1)
-        dial = normalize(dial + direction * int(line[1:]))
-        print(f"{line=}, {dial=}")
+        passes, dial = normalize(dial, dial + direction * int(line[1:]))
+        # print(f"{line=}, {passes=}, {dial=}")
     
-        if dial == 0:
-            counter += 1
+        counter += passes
 
     ans = counter
 
@@ -53,7 +66,7 @@ def main(lines: list[str]):
     print("")
     print(f"Ans: {ans}")
 
-    # ans: 980
+    # ans: 5961
 
 
 
