@@ -27,6 +27,41 @@ from itertools import product, combinations
 #----------------------------------------------------------------
 
 def main(lines: list[str]):
+    p_ranges: list(str) = lines[0].split(",")
+
+    ans = 0
+    for p_range in p_ranges:
+        # for each range
+        [a, b] = p_range.split("-")
+
+        for num_id in range(int(a), int(b)+1):
+            # scan through all the digits
+            id = str(num_id)
+            len_id = len(id)
+            if len_id % 2 == 1:
+                continue
+            match len_id:
+                case 2:
+                    if id[0] == id[1]:
+                        print(id)
+                        ans += num_id
+                case 4:
+                    if id[0:2] == id[2:4]:
+                        print(id)
+                        ans += num_id
+                case 6:
+                    if id[0:3] == id[3:6]:
+                        print(id)
+                        ans += num_id
+                case 8:
+                    if id[0:4] == id[4:8]:
+                        print(id)
+                        ans += num_id
+                case 10:
+                    if id[0:5] == id[5:10]:
+                        print(id)
+                        ans += num_id
+
 
 
 
@@ -51,8 +86,9 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         # Paste test example data here
         test_data = """\
-paste here
-paste here"""
+11-22,95-115,998-1012,1188511880-1188511890,222220-222224,\
+1698522-1698528,446443-446449,38593856-38593862,565653-565659,\
+824824821-824824827,2121212118-2121212124"""
         lines = test_data.splitlines()
     else:
         data_file = Path.cwd() / "puzzle_data.txt"
