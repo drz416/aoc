@@ -28,14 +28,32 @@ from itertools import product, combinations
 
 def main(lines: list[str]):
 
+    fresh_ranges: list[tuple[int]] = []
+    ingredients: list[int] = []
 
+    in_ingredients = False
+    for line in lines:
+        if in_ingredients:
+            ingredients.append(int(line))
+        elif line == "":
+            in_ingredients = True
+        else:
+            start, end = line.split("-")
+            fresh_ranges.append((int(start), int(end)))
 
     ans = 0
+    for ingredient in ingredients:
+        for fresh_range in fresh_ranges:
+            # Compare each range with selected ingredient, if it's within range
+            # mark it as fresh, and go onto next ingredient
+            if fresh_range[0] <= ingredient <= fresh_range[1]:
+                ans += 1
+                break
 
-    
-    print(f"\nAns: {ans}")
+    print("")
+    print(f"Ans: {ans}")
 
-    # ans: ####
+    # ans: 601
 
 
 
@@ -53,8 +71,17 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         # Paste test example data here
         test_data = """\
-paste here
-paste here"""
+3-5
+10-14
+16-20
+12-18
+
+1
+5
+8
+11
+17
+32"""
         lines = test_data.splitlines()
     else:
         data_file = Path.cwd() / "puzzle_data.txt"

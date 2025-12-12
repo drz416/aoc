@@ -28,17 +28,39 @@ from itertools import product, combinations
 
 def main(lines: list[str]):
 
+    # Read in the ranges, convert them to int and sort them
+    raw_ranges: list[tuple[int]] = []
+    for line in lines:
+        if line == "":
+            break
+        start, end = line.split("-")
+        raw_ranges.append((int(start), int(end)))
+    raw_ranges.sort()
 
+    # Inspect and combine the ranges on a stack, pull out when not overlapping
+    que_ranges: deque[tuple[int]] = deque(raw_ranges)
+    que_merged: deque[tuple[int]] = deque()
+    while True:
+        if len(que_ranges) == 1:
+            que_merged.append(que_ranges.popleft())
+            break
+        a_min, a_max = que_ranges.popleft()
+        b_min, b_max = que_ranges.popleft()
+        
+        if b_min > a_max:
+            que_merged.append((a_min, a_max))
+            que_ranges.appendleft((b_min, b_max))
+        else:
+            que_ranges.appendleft((a_min, max(a_max, b_max)))
 
     ans = 0
+    while que_merged:
+        a_min, a_max = que_merged.popleft()
+        ans += a_max - a_min + 1
 
-    
     print(f"\nAns: {ans}")
 
-    # ans: ####
-
-
-
+    # ans: 367899984917516
 
 #----------------------------------------------------------------
 
@@ -53,8 +75,11 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         # Paste test example data here
         test_data = """\
-paste here
-paste here"""
+3-5
+10-14
+16-20
+12-18
+"""
         lines = test_data.splitlines()
     else:
         data_file = Path.cwd() / "puzzle_data.txt"
