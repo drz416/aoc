@@ -26,25 +26,22 @@ from itertools import product, combinations
 # Solution Code
 #----------------------------------------------------------------
 
-
+from functools import partial, lru_cache
 def main(rows: list[str]):
 
-    manifold: list[list[str]] = []
-    for row in rows:
-        manifold.append(list(row))
     start = (0, rows[0].find("S"))
     last_row = len(rows) - 1
 
     @lru_cache
     def get_timelines(position: tuple[int]) -> int:
-        nonlocal manifold
+        nonlocal rows
         nonlocal last_row
 
         if position[0] == last_row:
             return 1
-        if manifold[position[0]+1][position[1]] == ".":
+        if rows[position[0]+1][position[1]] == ".":
             return get_timelines((position[0]+1, position[1]))
-        if manifold[position[0]+1][position[1]] == "^":
+        if rows[position[0]+1][position[1]] == "^":
             return get_timelines((position[0], position[1]-1)) + get_timelines((position[0], position[1]+1))
 
 
