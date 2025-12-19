@@ -106,6 +106,8 @@ def main(rows: list[str]):
     # Put another way, no 0s within
     ans = 0
     for ((v1, h1), (v2, h2)) in combinations(folded_tiles, 2):
+        if (grid[v1][h2] == 0) or (grid[v2][h1] == 0):
+            continue
         v_range = range(min(v1, v2), max(v1, v2)+1)
         h_range = range(min(h1, h2), max(h1, h2)+1)
         for v, h in product(v_range, h_range):
