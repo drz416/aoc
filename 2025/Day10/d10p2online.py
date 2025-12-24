@@ -54,49 +54,57 @@ def main(rows: list[str]):
             wrgs.append(tuple(wrgs_acc))
         wirings.append(wrgs)
 
-    def check_if_greater(curr_joltage: tuple[int], target_joltage: tuple[int]) -> bool:
-        for cj, tj in zip(curr_joltage, target_joltage):
-            if cj > tj:
-                return True
-        return False
+    from functools import cache
+    from itertools import combinations, product
 
-    def find_min(presses: int,
-                 wiring: list[list[tuple[int]]],
-                 target_joltage: tuple[int],
-                 curr_joltage: tuple[int]) -> None:
-        nonlocal min_presses
+    def patterns(coeffs: list[tuple[int, ...]]) -> dict[tuple[int, ...], dict[tuple[int, ...], int]]:
+        num_buttons = len(coeffs)
+        num_variables = len(coeffs[0])
+        out = {parity_pattern: {} for parity_pattern in product(range(2), repeat=num_variables)}
+        for num_pressed_buttons in range(num_buttons+1):
+            for buttons in combinations(range(num_buttons), num_pressed_buttons):
+                pattern = tuple(map(sum, zip((0,) * num_variables, *(coeffs[i] for i in buttons))))
+                parity_pattern = tuple(i%2 for i in pattern)
+                if pattern not in out[parity_pattern]:
+                    out[parity_pattern][pattern] = num_pressed_buttons
+        return out
 
-        presses += 1
+    def solve_single(coeffs: list[tuple[int, ...]], goal: tuple[int, ...]) -> int:
+        pattern_costs = patterns(coeffs)
+        @cache
+        def solve_single_aux(goal: tuple[int, ...]) -> int:
+            if all(i == 0 for i in goal): return 0
+            answer = 1000000
+            for pattern, pattern_cost in pattern_costs[tuple(i%2 for i in goal)].items():
+                if all(i <= j for i, j in zip(pattern, goal)):
+                    new_goal = tuple((j - i)//2 for i, j in zip(pattern, goal))
+                    answer = min(answer, pattern_cost + 2 * solve_single_aux(new_goal))
+            return answer
+        return solve_single_aux(goal)
 
-        if presses >= min_presses:
-            return
+    def solve(lines: str):
+        score = 0
+        # lines = raw.splitlines()
+        for I, L in enumerate(lines, 1):
+            _, *coeffs, goal = L.split()
+            goal = tuple(int(i) for i in goal[1:-1].split(","))
+            coeffs = [[int(i) for i in r[1:-1].split(",")] for r in coeffs]
+            coeffs = [tuple(int(i in r) for i in range(len(goal))) for r in coeffs]
 
-        for button in wiring:
-            joltage = tuple(cj + bt for cj, bt in zip(curr_joltage, button))
-            if joltage == target_joltage:
-                min_presses = presses
-                return
-            if check_if_greater(joltage, target_joltage):
-                continue
-            find_min(presses, wiring, target_joltage, joltage)
+            subscore = solve_single(coeffs, goal)
+            print(f'Line {I}/{len(lines)}: answer {subscore}')
+            score += subscore
+        print(score)
 
-        return
+    # solve(open('input/10.test').read())
+    solve(rows)
 
-    # Go through each machine and determine minimum presses
+
+
+
+
     ans = 0
-    for wiring, target_joltage in zip(wirings, joltages):
-        print("start")
-        min_presses = 99999
-        breakpoint()
-        # At each machine, test out all combinations, recursively, and stop recursion
-        # if a branch reaches a number of presses that's larger than a found
-        # minimum, or if it reaches joltage requirements that are larger than the 
-        # requirement
 
-        find_min(0, wiring, target_joltage, tuple([0]*len(target_joltage)))
-        
-        ans += min_presses
-        print(f"{min_presses=}, {ans=}")
 
 
     print(f"\nAns: {ans}")
