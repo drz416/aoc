@@ -28,8 +28,13 @@ from itertools import product, combinations
 
 def main(rows: list[str]):
 
+    # FYI this class definition is not required for this problem, as this problem
+    # is NP-complete it cannot be solved, however the AOC puzzle has a very
+    # simple solution that uses process of elimination
+
     class Present():
         def __init__(self, shape_index: int) -> None:
+            self.index = shape_index
             self.shape = shapes[shape_index]
 
         def rotate_90(self) -> None:
@@ -59,6 +64,7 @@ def main(rows: list[str]):
             return s
 
     shapes: dict = {}
+    shape_sizes: dict = {}
     shape_index = -1
     to_int = lambda x: 1 if x == '#' else 0
     grids = []
@@ -72,28 +78,52 @@ def main(rows: list[str]):
             shape.append(tuple(to_int(c) for c in rows[n+3]))
             shape_index += 1
             shapes[shape_index] = shape
+            shape_sizes[shape_index] = sum(shape[0]) + sum(shape[1]) + sum(shape[2])
             n += 5
         else:
             grid, presents = rows[n].split(": ")
             x, y = grid.split("x")
-            grids.append([(y, x), tuple(presents.split())])
+            grids.append([(int(y), int(x)), tuple(map(int,presents.split()))])
             n += 1
 
-    # pprint(shapes, width=20)
-    # pprint(grids)
-
-    prst = Present(1)
-    print(prst)
-    prst.flip_horizontal()
-    prst.rotate_90()
-    print(prst)
-
-    ans = 0
-
+    def check_no_overlap_fit(grid: tuple[int], presents: tuple[int]) -> bool:
+        no_overlap_m, no_overlap_n = grid[0] // 3, grid[1] // 3
+        no_overlap_fit = no_overlap_m * no_overlap_n
+        if no_overlap_fit >= sum(presents):
+            return True
+        return False
     
+    def check_no_physical_space(grid: tuple[int], presents: tuple[int]) -> bool:
+        space_required = 0
+        for i, present in enumerate(presents):
+            space_required += present * shape_sizes[i]
+        if space_required > (grid[0] * grid[1]):
+            return True
+        return False
+
+
+    fit = 0
+    no_fit = 0
+    unsure = 0
+    # Go through all grids
+    for grid, presents in grids:
+        # check if they fit with no overlap (treat each shape as 3x3)
+        if check_no_overlap_fit(grid, presents):
+            fit += 1
+            continue
+        # check if they cannot possibly fit due to number of squares
+        if check_no_physical_space(grid, presents):
+            no_fit += 1
+            continue
+        unsure += 1
+
+    print(f"{fit=}\n{no_fit=}\n{unsure=}")
+
+
+    ans = fit
     print(f"\nAns: {ans}")
 
-    # ans: ####
+    # ans: 512
 
 
 
